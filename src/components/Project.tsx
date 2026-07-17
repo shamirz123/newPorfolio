@@ -1,14 +1,13 @@
-import React from "react";
-import mock01 from '../assets/images/vendix-sr.png';
-import mock02 from '../assets/images/bizprobe-sr.png';
-import mock03 from '../assets/images/employrernext-sr.png';
-import mock04 from '../assets/images/falaksoftware-sr.png';
-import mock05 from '../assets/images/scam-sr.png';
-import mock06 from '../assets/images/tripplanner-sr.png';
-import mock07 from '../assets/images/jamia-sr.png';
-import mock08 from '../assets/images/expense-sr.png';
-import mock09 from '../assets/images/chtbot-sr.png';
-import '../assets/styles/Project.scss';
+import mock01 from '/assets/images/vendix-sr.png';
+import mock02 from '/assets/images/bizprobe-sr.png';
+import mock03 from '/assets/images/employrernext-sr.png';
+import mock04 from '/assets/images/falaksoftware-sr.png';
+import mock05 from '/assets/images/scam-sr.png';
+import mock06 from '/assets/images/tripplanner-sr.png';
+import mock07 from '/assets/images/jamia-sr.png';
+import mock08 from '/assets/images/expense-sr.png';
+import mock09 from '/assets/images/chtbot-sr.png';
+// import '../../src/styles/Project.scss';
 
 function Project() {
     return(

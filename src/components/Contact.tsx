@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import '../assets/styles/Contact.scss';
+// import '../styles/Contact.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -22,9 +22,9 @@ function Contact() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const form = useRef();
+const form = useRef<HTMLFormElement>(null);
 
-  const sendEmail = async (e: any) => {
+const sendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const hasNameError = name === '';

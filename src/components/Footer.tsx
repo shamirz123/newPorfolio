@@ -1,14 +1,18 @@
-import React from "react";
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import '../assets/styles/Footer.scss'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+// import "../styles/Footer.scss";
 
 function Footer() {
   return (
     <footer>
       <div>
-        <a href="https://github.com/yujisatojr" target="_blank" rel="noreferrer"><GitHubIcon/></a>
-        <a href="https://www.linkedin.com/in/yujisato/" target="_blank" rel="noreferrer"><LinkedInIcon/></a>
+        <a href="https://github.com/yujisatojr" target="_blank" rel="noreferrer">
+          <FontAwesomeIcon icon={faGithub} size="2x" />
+        </a>
+
+        <a href="https://www.linkedin.com/in/yujisato/" target="_blank" rel="noreferrer">
+          <FontAwesomeIcon icon={faLinkedin} size="2x" />
+        </a>
       </div>
     </footer>
   );

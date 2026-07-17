@@ -3,7 +3,7 @@ import '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReact, faNodeJs, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import Chip from '@mui/material/Chip';
-import '../assets/styles/Expertise.scss';
+// import '../styles/Expertise.scss';
 
 const labelsFirst = [
     "React.js",

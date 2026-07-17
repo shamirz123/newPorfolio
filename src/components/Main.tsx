@@ -1,8 +1,6 @@
-import React from "react";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import avatarImg from '../assets/images/profile.jpg';
-import '../assets/styles/Main.scss';
+import avatarImg from '/assets/images/profile.jpg';
 
 function Main() {
 

@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
-/**
- * Cinematic ambient backdrop — drifting aurora orbs + soft grid.
- */
+
 export default function AmbientBackground() {
   const { theme } = useTheme();
   const reduce = useReducedMotion();

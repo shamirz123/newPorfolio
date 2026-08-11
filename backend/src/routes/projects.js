@@ -1,15 +1,16 @@
 import { Router } from "express";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import { Project } from "../models/Project.js";
 import { requireAuth } from "../middleware/auth.js";
-import { upload } from "../middleware/upload.js";
+import { upload, uploadsDir } from "../middleware/upload.js";
+import {
+  deleteCloudinaryImage,
+  isCloudinaryEnabled,
+  uploadBufferToCloudinary,
+} from "../utils/cloudinary.js";
 
 const router = Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const uploadsDir = path.join(__dirname, "../../uploads");
 
 function parseTech(value) {
   if (Array.isArray(value)) {
@@ -24,13 +25,40 @@ function parseTech(value) {
   return [];
 }
 
-function removeUploadedFile(imagePath) {
+function removeLocalUpload(imagePath) {
   if (!imagePath?.startsWith("/uploads/")) return;
   const filename = path.basename(imagePath);
   const fullPath = path.join(uploadsDir, filename);
   if (fs.existsSync(fullPath)) {
     fs.unlinkSync(fullPath);
   }
+}
+
+async function removeProjectImage(imagePath) {
+  if (!imagePath) return;
+  if (imagePath.includes("res.cloudinary.com")) {
+    await deleteCloudinaryImage(imagePath);
+    return;
+  }
+  removeLocalUpload(imagePath);
+}
+
+async function resolveUploadedImage(file) {
+  if (!file) return null;
+
+  if (isCloudinaryEnabled()) {
+    const result = await uploadBufferToCloudinary(file.buffer);
+    return result.secure_url;
+  }
+
+  // Disk /tmp path — warn on serverless because files disappear between invocations
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    console.warn(
+      "Saving upload to /tmp on serverless. Configure Cloudinary for persistent images."
+    );
+  }
+
+  return `/uploads/${file.filename}`;
 }
 
 router.get("/", async (_req, res) => {
@@ -60,7 +88,9 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
       req.body;
 
     if (!title?.trim() || !description?.trim()) {
-      if (req.file) removeUploadedFile(`/uploads/${req.file.filename}`);
+      if (req.file && !isCloudinaryEnabled()) {
+        removeLocalUpload(`/uploads/${req.file.filename}`);
+      }
       return res.status(400).json({ message: "Title and description are required" });
     }
 
@@ -68,11 +98,13 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
       return res.status(400).json({ message: "Project image is required" });
     }
 
+    const image = await resolveUploadedImage(req.file);
+
     const project = await Project.create({
       title: title.trim(),
       subtitle: subtitle?.trim() || "",
       description: description.trim(),
-      image: `/uploads/${req.file.filename}`,
+      image,
       liveUrl: liveUrl?.trim() || "",
       githubUrl: githubUrl?.trim() || "",
       tech: parseTech(req.body.tech),
@@ -91,7 +123,9 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) {
-      if (req.file) removeUploadedFile(`/uploads/${req.file.filename}`);
+      if (req.file && !isCloudinaryEnabled()) {
+        removeLocalUpload(`/uploads/${req.file.filename}`);
+      }
       return res.status(404).json({ message: "Project not found" });
     }
 
@@ -108,8 +142,9 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res) => {
     if (req.body.tech !== undefined) project.tech = parseTech(req.body.tech);
 
     if (req.file) {
-      removeUploadedFile(project.image);
-      project.image = `/uploads/${req.file.filename}`;
+      const previous = project.image;
+      project.image = await resolveUploadedImage(req.file);
+      await removeProjectImage(previous);
     }
 
     await project.save();
@@ -125,7 +160,7 @@ router.delete("/:id", requireAuth, async (req, res) => {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: "Project not found" });
 
-    removeUploadedFile(project.image);
+    await removeProjectImage(project.image);
     await project.deleteOne();
     res.json({ message: "Project deleted" });
   } catch (error) {

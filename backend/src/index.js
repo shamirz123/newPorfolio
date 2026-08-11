@@ -32,10 +32,27 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+// Local / Render disk uploads only. On serverless, images go to Cloudinary.
+const cloudinaryReady =
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET;
+const onServerless = Boolean(
+  process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT
+);
+
+if (!cloudinaryReady && !onServerless) {
+  app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+}
 
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok" });
+  res.json({
+    status: "ok",
+    uploads: cloudinaryReady ? "cloudinary" : onServerless ? "missing-cloudinary" : "disk",
+  });
 });
 
 app.use("/api/auth", authRoutes);

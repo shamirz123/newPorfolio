@@ -3,6 +3,8 @@ export const site = {
   role: "Web Developer",
   email: "rajashamir383@gmail.com",
   phone: "+92 3115386005",
+  // International format, digits only (used for wa.me links)
+  whatsapp: "923115386005",
   location: "Taramri, Islamabad",
   resumeUrl: "/assets/img/Web-Developer-Shahmeer-Zubair.pdf",
   resumeFilename: "Shahmeer-Zubair-Resume.pdf",
@@ -30,6 +32,7 @@ export const navLinks = [
   { id: "projects", label: "Work" },
   { id: "experience", label: "Journey" },
   { id: "testimonials", label: "Words" },
+  { id: "assistant", label: "Ask" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -71,11 +74,12 @@ export const experiences = [
   },
   {
     id: 2,
-    title: "Full Stack Developer",
+    title: "React.js Developer",
     company: "LALA Group of Companies",
     date: "Jul 2023 — Nov 2025",
     points: [
       "Built and maintained scalable React apps integrated with Node.js and PHP APIs",
+      "Contributed to PHP backend features and wrote SQL queries for travel booking platforms",
       "Optimized frontend architecture and API integration to reduce load times",
       "Implemented Redux across 10+ products for consistent state management",
     ],

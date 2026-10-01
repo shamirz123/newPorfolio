@@ -1,10 +1,12 @@
 import AmbientBackground from "../Components/layout/AmbientBackground";
 import CommandPalette from "../Components/layout/CommandPalette";
+import WhatsAppWidget from "../Components/layout/WhatsAppWidget";
 import Footer from "../Components/layout/Footer";
 import Navbar from "../Components/layout/Navbar";
 import ScrollProgress from "../Components/layout/ScrollProgress";
 import SpotlightCursor from "../Components/layout/SpotlightCursor";
 import About from "../Components/sections/About";
+import Assistant from "../Components/sections/Assistant";
 import Contact from "../Components/sections/Contact";
 import Experience from "../Components/sections/Experience";
 import Hero from "../Components/sections/Hero";
@@ -27,12 +29,14 @@ export default function PortfolioHome() {
         <Projects />
         <Experience />
         <Testimonials />
+        <Assistant />
         <Contact />
       </main>
       <div className="relative z-10">
         <Footer />
       </div>
       <CommandPalette />
+      <WhatsAppWidget />
     </div>
   );
 }

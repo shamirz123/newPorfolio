@@ -19,6 +19,7 @@ const iconMap = {
   projects: HiOutlineBriefcase,
   experience: HiOutlineCodeBracket,
   testimonials: HiOutlineChatBubbleLeftRight,
+  assistant: HiOutlineCommandLine,
   contact: HiOutlineEnvelope,
 };
 
@@ -135,7 +136,7 @@ export default function CommandPalette() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 hidden items-center gap-2 rounded-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--surface)]/80 px-3.5 py-2 text-xs text-[var(--fg-muted)] shadow-lg backdrop-blur-md transition-colors hover:border-accent/40 hover:text-accent md:flex"
+        className="fixed bottom-5 left-5 z-40 hidden items-center gap-2 rounded-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--surface)]/80 px-3.5 py-2 text-xs text-[var(--fg-muted)] shadow-lg backdrop-blur-md transition-colors hover:border-accent/40 hover:text-accent md:flex"
         aria-label="Open command palette"
       >
         <HiOutlineCommandLine className="h-4 w-4" />

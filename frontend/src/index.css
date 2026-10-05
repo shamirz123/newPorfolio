@@ -121,6 +121,28 @@
   }
 }
 
+/* Form fields. Plain CSS (not `bg-[var(--bg)]/60`) because Tailwind drops an
+   opacity modifier on a hex CSS variable, leaving the browser's white default. */
+@layer components {
+  .input-field {
+    @apply w-full border px-4 py-3 outline-none transition-colors focus:border-accent;
+    border-color: rgb(var(--color-line) / var(--line-opacity));
+    background-color: color-mix(in srgb, var(--bg) 60%, transparent);
+    color: var(--fg);
+  }
+
+  .input-field::placeholder {
+    color: var(--fg-muted);
+    opacity: 0.7;
+  }
+
+  /* Browser autofill paints a light background; keep text readable. */
+  .input-field:-webkit-autofill {
+    -webkit-text-fill-color: var(--fg);
+    box-shadow: 0 0 0 1000px var(--bg) inset;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -51,7 +51,7 @@ export default function AdminLogin() {
               autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--bg)]/60 px-4 py-3 text-[var(--fg)] outline-none transition-colors focus:border-accent"
+              className="input-field"
             />
           </label>
 
@@ -65,7 +65,7 @@ export default function AdminLogin() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--bg)]/60 px-4 py-3 text-[var(--fg)] outline-none transition-colors focus:border-accent"
+              className="input-field"
             />
           </label>
 

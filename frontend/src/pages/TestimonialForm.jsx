@@ -6,8 +6,7 @@ import Button from "../Components/ui/Button";
 
 const MAX_QUOTE = 600;
 
-const fieldClass =
-  "w-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--bg)]/60 px-4 py-3 text-[var(--fg)] outline-none transition-colors focus:border-accent";
+const fieldClass = "input-field";
 const labelClass =
   "mb-2 block text-xs uppercase tracking-[0.16em] text-[var(--fg-muted)]";
 

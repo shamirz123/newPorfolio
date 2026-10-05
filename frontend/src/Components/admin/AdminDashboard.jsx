@@ -169,8 +169,7 @@ export default function AdminDashboard() {
     navigate("/admin/login", { replace: true });
   };
 
-  const fieldClass =
-    "w-full border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--bg)]/60 px-4 py-3 text-[var(--fg)] outline-none transition-colors focus:border-accent";
+  const fieldClass = "input-field";
 
   return (
     <div className="relative min-h-screen">
@@ -329,7 +328,7 @@ export default function AdminDashboard() {
                     type="color"
                     value={form.accent}
                     onChange={onChange}
-                    className="h-12 w-full cursor-pointer border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--bg)]/60 p-1"
+                    className="h-12 w-full cursor-pointer border border-[rgb(var(--color-line)/var(--line-opacity))] bg-transparent p-1"
                   />
                 </label>
                 <label className="block">

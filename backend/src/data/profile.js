@@ -7,16 +7,17 @@ export const profile = {
   email: "rajashamir383@gmail.com",
   phone: "+92 3115386005",
   summary:
-    "Frontend-focused full-stack developer with 3+ years building production web apps across React.js/Next.js and ASP.NET Core — dashboards, e-invoicing, POS systems, and bilingual RTL platforms. Open to full-time roles and freelance projects.",
+    "Full-stack developer (MERN) with 3+ years building production web apps across React.js/Next.js, Node.js and ASP.NET Core — dashboards, e-invoicing, POS systems, and bilingual RTL platforms — plus AI-powered features and workflow automation. Has served clients in several countries. Open to full-time roles and freelance projects.",
   links: {
-    github: "https://github.com/shamirzubair",
+    github: "https://github.com/shamirz123",
     linkedin: "https://www.linkedin.com/in/shahmeer-zubair-3590a0273/",
-    portfolio: "https://shahmir.vercel.app",
+    portfolio: "https://shahmeer-zubair-portfolio.vercel.app",
   },
   skills: {
-    Frontend: ["React.js", "Next.js", "JavaScript", "Tailwind CSS", "Bootstrap", "Redux Toolkit"],
-    Backend: ["Node.js", "Express.js", ".NET / ASP.NET Core", "MongoDB", "PostgreSQL", "MySQL"],
-    Tools: ["Firebase", "Chart.js", "Cloudinary"],
+    Frontend: ["React.js", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS", "Bootstrap", "Redux Toolkit"],
+    Backend: ["Node.js", "Express.js", ".NET / ASP.NET Core", "MongoDB", "PostgreSQL", "MySQL", "REST APIs with JWT authentication"],
+    "AI & Integration": ["RAG", "Google Gemini API", "Embeddings & Semantic Search", "SSE Streaming", "n8n"],
+    "Other Tools": ["Git", "GitHub", "GitHub Actions (CI)", "Vitest", "Postman", "Vercel", "Figma", "Agile/Scrum"],
   },
   experience: [
     {

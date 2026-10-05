@@ -1,6 +1,7 @@
 export const site = {
   name: "Shahmeer Zubair",
-  role: "Web Developer",
+  role: "Full Stack Developer",
+  photo: "/assets/img/profile-avatar.png",
   email: "rajashamir383@gmail.com",
   phone: "+92 3115386005",
   // International format, digits only (used for wa.me links)
@@ -8,11 +9,12 @@ export const site = {
   location: "Taramri, Islamabad",
   resumeUrl: "/assets/img/Web-Developer-Shahmeer-Zubair.pdf",
   resumeFilename: "Shahmeer-Zubair-Resume.pdf",
-  tagline: "I craft scalable web products with precision and presence.",
+  tagline:
+    "I build MERN apps, AI-powered features and automation that businesses rely on every day.",
   description:
     "Frontend-focused full-stack developer with 3+ years building production web apps across React.js/Next.js and ASP.NET Core — dashboards, e-invoicing, POS systems, and bilingual RTL platforms.",
   socials: [
-    { name: "GitHub", href: "https://github.com/shamirzubair", label: "GH" },
+    { name: "GitHub", href: "https://github.com/shamirz123", label: "GH" },
     {
       name: "LinkedIn",
       href: "https://www.linkedin.com/in/shahmeer-zubair-3590a0273/",
@@ -20,11 +22,17 @@ export const site = {
     },
     {
       name: "Portfolio",
-      href: "https://shahmir.vercel.app",
+      href: "https://shahmeer-zubair-portfolio.vercel.app",
       label: "WEB",
     },
   ],
 };
+
+export const stats = [
+  { value: "3+", label: "Years of experience" },
+  { value: "10+", label: "Products shipped" },
+  { value: "Global", label: "Clients served" },
+];
 
 export const navLinks = [
   { id: "about", label: "About" },
@@ -37,16 +45,19 @@ export const navLinks = [
 ];
 
 export const aboutHighlights = [
-  "Full-stack web development",
-  "Performance optimization",
+  "MERN & full-stack development",
+  "AI integration & automation",
   "API design & integration",
+  "Performance optimization",
   "Scalable architecture",
+  "Workflow automation",
 ];
 
 export const skills = [
   { name: "React.js", level: 92, group: "Frontend" },
   { name: "Next.js", level: 85, group: "Frontend" },
   { name: "JavaScript", level: 95, group: "Frontend" },
+  { name: "TypeScript", note: "Typed JavaScript", group: "Frontend" },
   { name: "Tailwind CSS", level: 88, group: "Frontend" },
   { name: "Bootstrap", level: 86, group: "Frontend" },
   { name: "Redux Toolkit", level: 88, group: "Frontend" },
@@ -56,8 +67,21 @@ export const skills = [
   { name: "MongoDB", level: 83, group: "Backend" },
   { name: "PostgreSQL", level: 78, group: "Backend" },
   { name: "MySQL", level: 80, group: "Backend" },
-  { name: "Firebase", level: 82, group: "Tools" },
-  { name: "Chart.js", level: 80, group: "Tools" },
+  { name: "REST APIs", note: "JWT-secured APIs", group: "Backend" },
+  // Tools and AI items mirror the resume. They have no percentage — a short note says what each is for.
+  { name: "Git", note: "Version control", group: "Tools" },
+  { name: "GitHub", note: "Code review & collaboration", group: "Tools" },
+  { name: "GitHub Actions", note: "CI pipelines", group: "Tools" },
+  { name: "Vitest", note: "Automated testing", group: "Tools" },
+  { name: "Postman", note: "API testing", group: "Tools" },
+  { name: "Vercel", note: "Deployment", group: "Tools" },
+  { name: "Figma", note: "Design to UI", group: "Tools" },
+  { name: "Agile / Scrum", note: "Sprint-based delivery", group: "Tools" },
+  { name: "RAG", note: "Retrieval-augmented assistants", group: "AI & Automation" },
+  { name: "Google Gemini API", note: "LLM integration", group: "AI & Automation" },
+  { name: "Embeddings & Semantic Search", note: "Chunking + cosine similarity", group: "AI & Automation" },
+  { name: "SSE Streaming", note: "Real-time AI responses", group: "AI & Automation" },
+  { name: "n8n", note: "Workflow automation", group: "AI & Automation" },
 ];
 
 export const experiences = [

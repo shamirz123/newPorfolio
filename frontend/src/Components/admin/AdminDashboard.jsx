@@ -17,6 +17,7 @@ const emptyForm = {
   tech: "",
   accent: "#C9A27A",
   order: "0",
+  featured: false,
 };
 
 export default function AdminDashboard() {
@@ -95,8 +96,8 @@ export default function AdminDashboard() {
   };
 
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const startEdit = (project) => {
@@ -110,6 +111,7 @@ export default function AdminDashboard() {
       tech: (project.tech || []).join(", "),
       accent: project.accent || "#C9A27A",
       order: String(project.order ?? 0),
+      featured: Boolean(project.featured),
     });
     setImageFile(null);
     setPreview(getImageUrl(project.image));
@@ -345,6 +347,22 @@ export default function AdminDashboard() {
                 </label>
               </div>
 
+              <label className="flex cursor-pointer items-center gap-3">
+                <input
+                  type="checkbox"
+                  name="featured"
+                  checked={form.featured}
+                  onChange={onChange}
+                  className="h-4 w-4 accent-[rgb(var(--color-accent))]"
+                />
+                <span className="text-sm text-[var(--fg)]">
+                  Featured{" "}
+                  <span className="text-[var(--fg-muted)]">
+                    — show on the homepage (others go behind &ldquo;View all&rdquo;)
+                  </span>
+                </span>
+              </label>
+
               {error && (
                 <p className="text-sm text-red-400" role="alert">
                   {error}
@@ -391,6 +409,11 @@ export default function AdminDashboard() {
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-medium text-[var(--fg)]">
+                        {project.featured && (
+                          <span className="mr-1.5 text-accent" title="Featured">
+                            ★
+                          </span>
+                        )}
                         {project.title}
                       </p>
                       <p className="mt-1 line-clamp-2 text-sm text-[var(--fg-muted)]">

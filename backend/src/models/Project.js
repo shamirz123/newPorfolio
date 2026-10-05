@@ -43,6 +43,11 @@ const projectSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    // Featured projects are shown first on the site; the rest sit behind "View all".
+    featured: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

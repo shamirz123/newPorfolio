@@ -1,13 +1,19 @@
 import {
   FaReact,
   FaNodeJs,
-  FaFire,
   FaBootstrap,
-  FaChartBar,
+  FaPlug,
+  FaUsers,
+  FaBrain,
+  FaSearch,
+  FaStream,
+  FaProjectDiagram,
 } from "react-icons/fa";
+import { HiOutlineSparkles } from "react-icons/hi2";
 import {
   SiNextdotjs,
   SiJavascript,
+  SiTypescript,
   SiTailwindcss,
   SiMongodb,
   SiMysql,
@@ -15,6 +21,13 @@ import {
   SiDotnet,
   SiPostgresql,
   SiRedux,
+  SiGit,
+  SiGithub,
+  SiGithubactions,
+  SiVitest,
+  SiPostman,
+  SiVercel,
+  SiFigma,
 } from "react-icons/si";
 import Reveal from "../ui/Reveal";
 import SectionHeading from "../ui/SectionHeading";
@@ -24,6 +37,7 @@ const iconMap = {
   "React.js": FaReact,
   "Next.js": SiNextdotjs,
   JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
   "Tailwind CSS": SiTailwindcss,
   Bootstrap: FaBootstrap,
   "Redux Toolkit": SiRedux,
@@ -33,11 +47,23 @@ const iconMap = {
   MongoDB: SiMongodb,
   PostgreSQL: SiPostgresql,
   MySQL: SiMysql,
-  Firebase: FaFire,
-  "Chart.js": FaChartBar,
+  "REST APIs": FaPlug,
+  Git: SiGit,
+  GitHub: SiGithub,
+  "GitHub Actions": SiGithubactions,
+  Vitest: SiVitest,
+  Postman: SiPostman,
+  Vercel: SiVercel,
+  Figma: SiFigma,
+  "Agile / Scrum": FaUsers,
+  RAG: FaBrain,
+  "Google Gemini API": HiOutlineSparkles,
+  "Embeddings & Semantic Search": FaSearch,
+  "SSE Streaming": FaStream,
+  n8n: FaProjectDiagram,
 };
 
-const groups = ["Frontend", "Backend", "Tools"];
+const groups = ["Frontend", "Backend", "Tools", "AI & Automation"];
 
 export default function Skills() {
   return (
@@ -46,7 +72,7 @@ export default function Skills() {
         <SectionHeading
           eyebrow="Capabilities"
           title="Skills & tools I use to ship."
-          description="A focused stack for building dynamic, scalable, and responsive web applications — refined across 50+ projects."
+          description="A focused stack for building dynamic, scalable web applications — with AI and automation built in where it helps."
         />
 
         <div className="space-y-12">
@@ -64,8 +90,8 @@ export default function Skills() {
                   {items.map((skill, i) => {
                     const Icon = iconMap[skill.name];
                     return (
-                      <Reveal key={skill.name} delay={0.04 * i + gi * 0.05}>
-                        <div className="group relative flex flex-col gap-4 border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--surface)]/50 p-5 backdrop-blur-sm transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_0_28px_-10px_rgb(var(--color-accent)/0.4)]">
+                      <Reveal key={skill.name} delay={0.04 * i + gi * 0.05} className="h-full">
+                        <div className="group relative flex h-full flex-col gap-4 border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--surface)]/50 p-5 backdrop-blur-sm transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_0_28px_-10px_rgb(var(--color-accent)/0.4)]">
                           {Icon && (
                             <Icon className="h-7 w-7 text-accent transition-transform duration-500 group-hover:scale-110" />
                           )}
@@ -73,15 +99,23 @@ export default function Skills() {
                             <p className="text-sm font-medium text-[var(--fg)]">
                               {skill.name}
                             </p>
-                            <div className="mt-3 h-px w-full overflow-hidden bg-[rgb(var(--color-line)/var(--line-opacity))]">
-                              <div
-                                className="h-full bg-accent transition-all duration-700 ease-out-expo group-hover:opacity-100"
-                                style={{ width: `${skill.level}%` }}
-                              />
-                            </div>
-                            <p className="mt-2 text-xs text-[var(--fg-muted)]">
-                              {skill.level}%
-                            </p>
+                            {skill.level != null ? (
+                              <>
+                                <div className="mt-3 h-px w-full overflow-hidden bg-[rgb(var(--color-line)/var(--line-opacity))]">
+                                  <div
+                                    className="h-full bg-accent transition-all duration-700 ease-out-expo group-hover:opacity-100"
+                                    style={{ width: `${skill.level}%` }}
+                                  />
+                                </div>
+                                <p className="mt-2 text-xs text-[var(--fg-muted)]">
+                                  {skill.level}%
+                                </p>
+                              </>
+                            ) : (
+                              <p className="mt-3 text-xs text-[var(--fg-muted)]">
+                                {skill.note}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </Reveal>

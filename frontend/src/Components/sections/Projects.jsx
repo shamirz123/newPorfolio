@@ -160,10 +160,32 @@ function ProjectCard({ project, index }) {
   );
 }
 
+const DEFAULT_VISIBLE = 6;
+
+// "Scam Soldier" and "ScamSoldier" are the same project; keep the first one.
+const dedupeKey = (title = "") => title.toLowerCase().replace(/[^a-z0-9]/g, "");
+function dedupe(list) {
+  const seen = new Set();
+  return list.filter((p) => {
+    const key = dedupeKey(p.title);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
+  const unique = dedupe(projects);
+  const featured = unique.filter((p) => p.featured);
+  // Projects ticked "Featured" in the admin come first; otherwise the first few by order.
+  const highlights = featured.length > 0 ? featured : unique.slice(0, DEFAULT_VISIBLE);
+  const visible = showAll ? unique : highlights;
+  const hiddenCount = unique.length - highlights.length;
 
   useEffect(() => {
     let active = true;
@@ -211,7 +233,7 @@ export default function Projects() {
         )}
 
         <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-          {projects.map((project, index) => (
+          {visible.map((project, index) => (
             <ProjectCard
               key={project._id || project.id}
               project={project}
@@ -219,6 +241,25 @@ export default function Projects() {
             />
           ))}
         </div>
+
+        {hiddenCount > 0 && (
+          <div className="mt-12 flex justify-center">
+            <button
+              type="button"
+              onClick={() => {
+                if (showAll) {
+                  document
+                    .getElementById("projects")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }
+                setShowAll((v) => !v);
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--color-line)/var(--line-opacity))] px-6 py-3 text-base font-medium text-[var(--fg)] transition-colors hover:border-accent/50 hover:text-accent"
+            >
+              {showAll ? "Show fewer projects" : `View all projects (${unique.length})`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

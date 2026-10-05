@@ -67,7 +67,7 @@ export default function WhatsAppWidget() {
             <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
               <div className="relative">
                 <img
-                  src="/assets/img/profile.JPEG"
+                  src="/assets/img/profile-avatar.png"
                   alt=""
                   className="h-10 w-10 rounded-full object-cover"
                 />

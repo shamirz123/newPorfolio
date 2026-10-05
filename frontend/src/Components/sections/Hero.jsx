@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { HiArrowDown, HiArrowDownTray } from "react-icons/hi2";
 import Button from "../ui/Button";
 import TechMarquee from "../ui/TechMarquee";
-import { site } from "../../data/content";
+import { site, stats } from "../../data/content";
 
 export default function Hero() {
   const scrollToContact = () => {
@@ -15,6 +15,18 @@ export default function Hero() {
       className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-10 pt-28 md:justify-center md:pb-16 md:pt-32"
     >
       <div className="site-container relative z-10">
+        <div className="lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16">
+        <div>
+        <motion.img
+          src={site.photo}
+          alt={site.name}
+          width={80}
+          height={80}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-5 h-20 w-20 rounded-full object-cover ring-2 ring-accent/60 ring-offset-4 ring-offset-[var(--bg)] lg:hidden"
+        />
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,6 +83,45 @@ export default function Hero() {
             to explore
           </p>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12 grid max-w-xl grid-cols-3 gap-4 sm:gap-8"
+        >
+          {stats.map((s) => (
+            <div key={s.label} className="border-l-2 border-accent/50 pl-3 sm:pl-4">
+              <p className="whitespace-nowrap font-display text-lg font-semibold text-[var(--fg)] sm:text-3xl">
+                {s.value}
+              </p>
+              <p className="mt-1 text-[0.7rem] leading-tight text-[var(--fg-muted)] sm:text-sm">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="relative hidden lg:block"
+        >
+          <div
+            aria-hidden
+            className="absolute -inset-6 rounded-full bg-accent/15 blur-3xl"
+          />
+          <img
+            src={site.photo}
+            alt={`${site.name}, ${site.role}`}
+            width={320}
+            height={320}
+            className="relative h-80 w-80 rounded-full object-cover ring-2 ring-accent/60 ring-offset-8 ring-offset-[var(--bg)] xl:h-96 xl:w-96"
+          />
+        </motion.div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0 }}

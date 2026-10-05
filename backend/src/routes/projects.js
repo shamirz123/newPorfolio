@@ -12,6 +12,10 @@ import {
 
 const router = Router();
 
+function parseBool(value) {
+  return value === true || value === "true" || value === "1" || value === "on";
+}
+
 function parseTech(value) {
   if (Array.isArray(value)) {
     return value.map((t) => String(t).trim()).filter(Boolean);
@@ -110,6 +114,7 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
       tech: parseTech(req.body.tech),
       accent: accent?.trim() || "#C9A27A",
       order: Number(order) || 0,
+      featured: parseBool(req.body.featured),
     });
 
     res.status(201).json(project);
@@ -140,6 +145,7 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res) => {
     if (accent !== undefined) project.accent = accent.trim() || "#C9A27A";
     if (order !== undefined) project.order = Number(order) || 0;
     if (req.body.tech !== undefined) project.tech = parseTech(req.body.tech);
+    if (req.body.featured !== undefined) project.featured = parseBool(req.body.featured);
 
     if (req.file) {
       const previous = project.image;

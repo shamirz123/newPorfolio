@@ -30,7 +30,7 @@ export const intents = [
       const lines = Object.entries(byGroup).map(
         ([group, list]) =>
           `**${group}:** ${list
-            .sort((a, b) => b.level - a.level)
+            .sort((a, b) => (b.level ?? 0) - (a.level ?? 0))
             .map((s) => s.name)
             .join(", ")}`
       );

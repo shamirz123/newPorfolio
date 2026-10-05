@@ -19,9 +19,9 @@ export default function About() {
           <div className="lg:col-span-7">
             <Reveal delay={0.1}>
               <p className="text-xl leading-relaxed text-[var(--fg-muted)] md:text-2xl">
-                Passionate MERN Stack Developer with a strong foundation in{" "}
+                Full Stack Developer with a strong foundation in{" "}
                 <span className="text-[var(--fg)]">
-                  MongoDB, Express.js, React.js, and Node.js
+                  React.js, Next.js, Node.js, MongoDB, and ASP.NET Core
                 </span>
                 . I specialize in high-performance, scalable applications that
                 solve real problems — and look as good as they run.

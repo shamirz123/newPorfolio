@@ -31,6 +31,36 @@ export default function AdminDashboard() {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [testimonials, setTestimonials] = useState([]);
+
+  const loadTestimonials = async () => {
+    try {
+      setTestimonials(await api.getAllTestimonials());
+    } catch (err) {
+      setError(err.message || "Failed to load testimonials");
+    }
+  };
+
+  const toggleTestimonial = async (t) => {
+    setError("");
+    try {
+      await api.setTestimonialStatus(t._id, t.status === "approved" ? "pending" : "approved");
+      await loadTestimonials();
+    } catch (err) {
+      setError(err.message || "Update failed");
+    }
+  };
+
+  const removeTestimonial = async (id) => {
+    if (!window.confirm("Delete this testimonial?")) return;
+    setError("");
+    try {
+      await api.deleteTestimonial(id);
+      await loadTestimonials();
+    } catch (err) {
+      setError(err.message || "Delete failed");
+    }
+  };
 
   const loadProjects = async () => {
     setLoading(true);
@@ -47,6 +77,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadProjects();
+    loadTestimonials();
   }, []);
 
   useEffect(() => {
@@ -396,6 +427,72 @@ export default function AdminDashboard() {
             </Link>
           </section>
         </div>
+
+        <section className="mt-14 border-t border-[rgb(var(--color-line)/var(--line-opacity))] pt-10">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 className="font-display text-xl font-semibold text-[var(--fg)]">
+              Testimonials ({testimonials.length})
+            </h2>
+            <p className="text-sm text-[var(--fg-muted)]">
+              Share this link:{" "}
+              <a href="/testimonial" className="text-accent hover:underline">
+                {window.location.origin}/testimonial
+              </a>
+            </p>
+          </div>
+
+          {testimonials.length === 0 ? (
+            <p className="mt-6 text-[var(--fg-muted)]">
+              No submissions yet. Send people the link above.
+            </p>
+          ) : (
+            <ul className="mt-6 grid gap-4 md:grid-cols-2">
+              {testimonials.map((t) => (
+                <li
+                  key={t._id}
+                  className="border border-[rgb(var(--color-line)/var(--line-opacity))] bg-[var(--surface)]/40 p-5"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium text-[var(--fg)]">{t.name}</p>
+                      {t.role && (
+                        <p className="truncate text-xs text-[var(--fg-muted)]">{t.role}</p>
+                      )}
+                    </div>
+                    <span
+                      className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs ${
+                        t.status === "approved"
+                          ? "bg-accent/15 text-accent"
+                          : "bg-yellow-500/15 text-yellow-400"
+                      }`}
+                    >
+                      {t.status === "approved" ? "Live" : "Pending"}
+                    </span>
+                  </div>
+                  <p className="mt-3 whitespace-pre-line text-sm text-[var(--fg-muted)]">
+                    {t.quote}
+                  </p>
+                  <div className="mt-4 flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => toggleTestimonial(t)}
+                      className="text-sm text-accent hover:underline"
+                    >
+                      {t.status === "approved" ? "Hide" : "Approve"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeTestimonial(t._id)}
+                      className="text-sm text-red-400 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
     </div>
   );

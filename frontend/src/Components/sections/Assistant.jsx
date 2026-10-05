@@ -5,6 +5,7 @@ import Reveal from "../ui/Reveal";
 import SectionHeading from "../ui/SectionHeading";
 import { resolveIntent, starterPrompts } from "../../data/assistant";
 import { site } from "../../data/content";
+import { api } from "../../api/client";
 
 const TRACE_STEP_MS = 420;
 const STREAM_TICK_MS = 18;
@@ -97,7 +98,8 @@ function Trace({ steps, current, done }) {
 
 function AssistantMessage({ msg, onAsk, isLatest }) {
   const streaming = msg.phase !== "done";
-  let visible = msg.phase === "thinking" ? "" : msg.text.slice(0, msg.shown);
+  const pending = msg.phase === "thinking" || msg.phase === "waiting";
+  let visible = pending ? "" : msg.text.slice(0, msg.shown);
   // Close a half-streamed **bold** so raw asterisks never flash on screen.
   if ((visible.match(/\*\*/g) || []).length % 2) visible += "**";
 
@@ -114,7 +116,7 @@ function AssistantMessage({ msg, onAsk, isLatest }) {
         <Trace
           steps={msg.trace}
           current={msg.traceStep}
-          done={msg.phase !== "thinking"}
+          done={!pending}
         />
         {visible && (
           <div>
@@ -185,7 +187,8 @@ export default function Assistant() {
 
   // Drive the latest assistant message through thinking → streaming → done.
   useEffect(() => {
-    if (latest.role !== "assistant" || latest.phase === "done") return;
+    // "waiting" is driven by the network request in ask(), not a timer.
+    if (latest.role !== "assistant" || latest.phase === "done" || latest.phase === "waiting") return;
 
     const update = (patch) =>
       setMessages((prev) =>
@@ -230,6 +233,60 @@ export default function Assistant() {
       return;
     }
 
+    // Slash commands are answered locally; everything else goes to the AI.
+    if (question.startsWith("/")) {
+      answerLocally(question);
+      return;
+    }
+
+    const history = messages
+      .filter((m) => m.text && m.id !== messages[0].id)
+      .map((m) => ({ role: m.role, content: m.text }));
+    const replyId = nextId++;
+
+    setMessages((prev) => [
+      ...prev,
+      { id: nextId++, role: "user", text: question },
+      {
+        id: replyId,
+        role: "assistant",
+        text: "",
+        trace: ["Thinking…"],
+        traceStep: 0,
+        shown: 0,
+        phase: "waiting",
+        actions: [],
+        followUps: [],
+      },
+    ]);
+
+    api
+      .chat(question, history)
+      .then(({ reply }) => {
+        patchMessage(replyId, {
+          text: reply,
+          shown: reduce ? reply.length : 0,
+          phase: reduce ? "done" : "streaming",
+        });
+      })
+      .catch(() => {
+        // AI unavailable (no key, rate limit, network) — use the built-in answers.
+        const intent = resolveIntent(question);
+        const text = typeof intent.answer === "function" ? intent.answer() : intent.answer;
+        patchMessage(replyId, {
+          text,
+          shown: reduce ? text.length : 0,
+          phase: reduce ? "done" : "streaming",
+          actions: intent.actions || [],
+          followUps: intent.followUps || [],
+        });
+      });
+  };
+
+  const patchMessage = (id, patch) =>
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, ...patch } : m)));
+
+  const answerLocally = (question) => {
     const intent = resolveIntent(question);
     const text = typeof intent.answer === "function" ? intent.answer() : intent.answer;
     const skip = reduce || intent.trace.length === 0;

@@ -4,6 +4,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
+import chatRoutes from "./routes/chat.js";
+import testimonialRoutes from "./routes/testimonials.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +68,8 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/testimonials", testimonialRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

@@ -95,27 +95,3 @@ export const experiences = [
     ],
   },
 ];
-
-export const testimonials = [
-  {
-    id: 1,
-    quote:
-      "Shahmeer is an exceptionally talented programmer — smart, reliable, and professional. You won't be disappointed.",
-    author: "Rodolfo E. Shannon",
-    role: "Client",
-  },
-  {
-    id: 2,
-    quote:
-      "Shahmeer efficiently manages our outdated website, providing quick and invaluable support. We would be lost without him.",
-    author: "Kenneth J. Dutton",
-    role: "Client",
-  },
-  {
-    id: 3,
-    quote:
-      "Delivering high-quality, scalable web solutions that exceed expectations. Working with Shahmeer feels effortless.",
-    author: "Product Partner",
-    role: "Collaborator",
-  },
-];

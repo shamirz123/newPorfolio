@@ -52,6 +52,25 @@ export const api = {
 
   getProjects: () => request("/api/projects"),
 
+  getTestimonials: () => request("/api/testimonials"),
+
+  submitTestimonial: (data) =>
+    request("/api/testimonials", { method: "POST", body: data }),
+
+  getAllTestimonials: () => request("/api/testimonials/admin/all"),
+
+  setTestimonialStatus: (id, status) =>
+    request(`/api/testimonials/${id}`, { method: "PATCH", body: { status } }),
+
+  deleteTestimonial: (id) =>
+    request(`/api/testimonials/${id}`, { method: "DELETE" }),
+
+  chat: (message, history) =>
+    request("/api/chat", {
+      method: "POST",
+      body: { message, history },
+    }),
+
   createProject: (formData) =>
     request("/api/projects", {
       method: "POST",

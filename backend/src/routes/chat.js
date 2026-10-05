@@ -76,7 +76,9 @@ router.post("/", async (req, res) => {
   const baseUrl = (
     process.env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai"
   ).replace(/\/$/, "");
-  const model = process.env.AI_MODEL || "gemini-2.0-flash";
+  // Alias that tracks Google's current Flash model, so it doesn't break when a
+  // pinned model is retired (gemini-2.0-flash already was). Override with AI_MODEL.
+  const model = process.env.AI_MODEL || "gemini-flash-latest";
 
   try {
     const projects = await projectFacts();
@@ -102,7 +104,13 @@ router.post("/", async (req, res) => {
     const data = await upstream.json().catch(() => ({}));
     if (!upstream.ok) {
       console.error("Chat upstream error:", upstream.status, JSON.stringify(data).slice(0, 500));
-      return res.status(502).json({ message: "The AI service is unavailable right now" });
+      // `detail` is the provider's own error text (e.g. "model not found"); it
+      // never contains our key, and makes setup problems diagnosable from the browser.
+      const detail = String(data?.error?.message || data?.[0]?.error?.message || "").slice(0, 200);
+      return res.status(502).json({
+        message: "The AI service is unavailable right now",
+        detail: `${upstream.status}${detail ? `: ${detail}` : ""}`,
+      });
     }
 
     const reply = data?.choices?.[0]?.message?.content?.trim();
